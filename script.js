@@ -20,12 +20,16 @@ let randomCharacter =
 
 console.log(`Personaggio estratto: ${randomCharacter}`);
 
-// FUNZIONI
+const initialMessages = [
+	{
+		role: "system",
+		content: `Simula di essere ${randomCharacter}, rispondi a domande su di te dando qualche indizio. Se il giocatore indovina la tua identita' comunicaglielo'. Se il giocatore scrive: "Mi arrendo", rivela la tua identita'.`,
+	},
+];
+
 async function generateResponse(inputValue) {
-	// 1. Mostrare il loader
-	// 2. Chiamare le API di OpenAI
 	const temperature = 0.3;
-	// 3. Recuperare la risposta
+
 	const response = await fetch(API_URL, {
 		method: "POST",
 		headers: {
@@ -35,10 +39,7 @@ async function generateResponse(inputValue) {
 		body: JSON.stringify({
 			model: MODEL,
 			messages: [
-				{
-					role: "system",
-					content: `Simula di essere ${randomCharacter}, rispondi a domande su di te dando qualche indizio. Se il giocatore indovina la tua identita' comunicaglielo'. Se il giocatore scrive: "Mi arrendo", rivela la tua identita'.`
-				},
+				...initialMessages,
 				{
 					role: "user",
 					content: `${inputValue} (Rispondi a questo messaggio con un massimo di 100 caratteri.)`,
@@ -47,9 +48,9 @@ async function generateResponse(inputValue) {
 			temperature: temperature,
 		}),
 	});
-	// 4. Interpretare la risposta in JSON
+
 	const data = await response.json();
-	// 5. Compilare la modale con i dati ricevuti
+
 	const message = data.choices[0].message.content;
 	messageArea.innerHTML = `<p>${message}</p>`;
 	console.log(message);
@@ -62,9 +63,9 @@ btnSend.addEventListener("click", function () {
 });
 
 input.addEventListener("keypress", function (event) {
-  if (event.key === "Enter") {
-    inputValue = input.value;
-    generateResponse(inputValue);
+	if (event.key === "Enter") {
+		inputValue = input.value;
+		generateResponse(inputValue);
 		input.value = "";
-  }
+	}
 });
