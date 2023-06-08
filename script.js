@@ -2,7 +2,7 @@
 
 const API_URL = "https://api.openai.com/v1/chat/completions";
 const MODEL = "gpt-3.5-turbo";
-const API_KEY = "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";
+const API_KEY = "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";
 const input = document.querySelector(".input");
 let inputValue = input.value;
 const messageArea = document.querySelector(`.message-area`);
@@ -37,7 +37,7 @@ async function generateResponse(inputValue) {
 			messages: [
 				{
 					role: "system",
-					content: `Simula di essere ${randomCharacter}, rispondi a domande su di te, senza rivelare la tua identita'. Rivela la tua identita' solo se il giocatore indovina oppure se scrive: "Mi Arrendo"`
+					content: `Simula di essere ${randomCharacter}, rispondi a domande su di te dando qualche piccolo indizio. Se il giocatore indovina la tua identita' congratulati con lui e rivela la tua identita'. Se il giocatore si arrende, rivela la tua identita'.`
 				},
 				{
 					role: "user",
@@ -58,4 +58,13 @@ async function generateResponse(inputValue) {
 btnSend.addEventListener("click", function () {
 	inputValue = input.value;
 	generateResponse(inputValue);
+	input.value = "";
+});
+
+input.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    inputValue = input.value;
+    generateResponse(inputValue);
+		input.value = "";
+  }
 });
