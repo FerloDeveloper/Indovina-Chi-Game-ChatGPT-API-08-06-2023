@@ -2,7 +2,7 @@
 
 const API_URL = "https://api.openai.com/v1/chat/completions";
 const MODEL = "gpt-3.5-turbo";
-const API_KEY = "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";
+const API_KEY = "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";
 const input = document.querySelector(".input");
 let inputValue = input.value;
 const messageArea = document.querySelector(`.message-area`);
@@ -37,7 +37,7 @@ async function generateResponse(inputValue) {
 			messages: [
 				{
 					role: "system",
-					content: `Simula di essere ${randomCharacter}, rispondi a domande su di te dando qualche piccolo indizio. Se il giocatore indovina la tua identita' congratulati con lui e rivela la tua identita'. Se il giocatore si arrende, rivela la tua identita'.`
+					content: `Simula di essere ${randomCharacter}, rispondi a domande su di te dando qualche indizio. Se il giocatore indovina la tua identita' comunicaglielo'. Se il giocatore scrive: "Mi arrendo", rivela la tua identita'.`
 				},
 				{
 					role: "user",
